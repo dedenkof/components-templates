@@ -1,4 +1,4 @@
-import { Component, contentChild, ContentChild, ElementRef, HostBinding, HostListener, inject, input, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, Component, contentChild, ContentChild, ElementRef, HostBinding, HostListener, inject, input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-control',
@@ -12,7 +12,10 @@ import { Component, contentChild, ContentChild, ElementRef, HostBinding, HostLis
 		'(click)': 'onClick()'
 	}
 })
-export class ControlComponent {
+export class ControlComponent implements AfterContentInit {
+	ngAfterContentInit(): void {
+		throw new Error('Method not implemented.');
+	}
 	// @HostListener('click') onClick() {
 	// 	console.log('Click', 'knock');
 	// }
@@ -25,6 +28,10 @@ private el = inject(ElementRef);
 // @ContentChild('input') private control?: ElementRef<HTMLInputElement | HTMLAreaElement>;
 
 private control = contentChild<ElementRef<HTMLInputElement | HTMLAreaElement>>('input');
+
+onAfterContentInit() {
+	// ...
+}
 
 onClick() {
  	console.log('Click', 'knock');
