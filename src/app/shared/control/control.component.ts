@@ -1,4 +1,17 @@
-import { AfterContentInit, Component, contentChild, ContentChild, ElementRef, HostBinding, HostListener, inject, input, ViewEncapsulation } from '@angular/core';
+import {
+  AfterContentInit,
+  afterNextRender,
+  afterRender,
+  Component,
+  contentChild,
+  ContentChild,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 
 @Component({
   selector: 'app-control',
@@ -6,37 +19,41 @@ import { AfterContentInit, Component, contentChild, ContentChild, ElementRef, Ho
   imports: [],
   templateUrl: './control.component.html',
   styleUrl: './control.component.css',
-	encapsulation: ViewEncapsulation.None,
-	host: {
-		class: 'control',
-		'(click)': 'onClick()'
-	}
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'control',
+    '(click)': 'onClick()',
+  },
 })
-export class ControlComponent implements AfterContentInit {
-	ngAfterContentInit(): void {
-		throw new Error('Method not implemented.');
-	}
-	// @HostListener('click') onClick() {
-	// 	console.log('Click', 'knock');
-	// }
+export class ControlComponent {
 
-	label = input.required<string>();
-//	@HostBinding('class') className ='control';
+  // @HostListener('click') onClick() {
+  // 	console.log('Click', 'knock');
+  // }
 
-private el = inject(ElementRef);
+  label = input.required<string>();
+  //	@HostBinding('class') className ='control';
 
-// @ContentChild('input') private control?: ElementRef<HTMLInputElement | HTMLAreaElement>;
+  private el = inject(ElementRef);
 
-private control = contentChild<ElementRef<HTMLInputElement | HTMLAreaElement>>('input');
+  // @ContentChild('input') private control?: ElementRef<HTMLInputElement | HTMLAreaElement>;
 
-onAfterContentInit() {
-	// ...
-}
+  private control =
+    contentChild<ElementRef<HTMLInputElement | HTMLAreaElement>>('input');
 
-onClick() {
- 	console.log('Click', 'knock');
-	console.log(this.el);
-	console.log(this.control());
- }
+  constructor() {
+    afterRender(() => {
+      console.log('AfterRender');
+    });
 
+    afterNextRender(() => {
+      console.log('AfterNextRender');
+    });
+  }
+
+  onClick() {
+    console.log('Click', 'knock');
+    console.log(this.el);
+    console.log(this.control());
+  }
 }
